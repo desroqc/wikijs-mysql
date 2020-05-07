@@ -1,0 +1,10 @@
+# Ignore docker-compose.yml
+docker-compose.yml
+
+# Ignore important volume folders
+volumes/var/lib/mysql/*
+volumes/wiki/data/content/*
+
+# Keep important empty directory and the main gitignore file
+!.gitignore
+!.gitkeep

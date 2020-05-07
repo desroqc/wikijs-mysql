@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+  wiki-db:
+    image: mysql:8.0
+    container_name: wiki-db
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./volumes/var/lib/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_DATABASE: wiki
+      MYSQL_USER: wikijs
+      MYSQL_PASSWORD: 
+      MYSQL_HOST: wiki-db
+    command: --default-authentication-plugin=mysql_native_password
+  wiki-www:
+    image: requarks/wiki:2
+    container_name: wiki-www
+    environment:
+      DB_TYPE: mysql
+      DB_HOST: wiki-db
+      DB_PORT: 3306
+      DB_USER: wikijs
+      DB_PASS: 
+      DB_NAME: wiki
+    restart: always
+    volumes:
+      - ./volumes/wiki/data/content:/wiki/data/content
+    ports:
+      - "3000:3000"
+    links:
+      - wiki-db
